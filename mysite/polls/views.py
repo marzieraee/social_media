@@ -15,27 +15,50 @@ from rest_framework_simplejwt.authentication import JWTAuthentication
 from rest_framework import generics
 from rest_framework.generics import RetrieveAPIView,UpdateAPIView,CreateAPIView,RetrieveUpdateAPIView,ListAPIView,ListCreateAPIView,RetrieveUpdateDestroyAPIView
 # from .paginations import * 
-from rest_framework import status
+from rest_framework import status,permissions
 
+
+
+class UserIsOwnerOrReadOnly(permissions.BasePermission):
+    def has_object_permission(self, request, view, obj):
+        if request.method in permissions.SAFE_METHODS:
+            return True
+        return obj.id == request.user.id
+    
+    
 
 class SignUp(CreateAPIView):
     permission_classes = (AllowAny,)
     serializer_class = RegisterSerializer
     
 
-class Profile(RetrieveUpdateAPIView):
-    
+
+class Profile(RetrieveAPIView):
+    serializer_class = UserProfileSerializer
     queryset = User.objects.all()
     lookup_field = 'username'
-    def get_serializer_class(self):
-        
-        if self.request.method=='GET':
-            
-            return UserProfileSerializer
+    permission_classes=(IsAuthenticated,)
 
-        else:
-            return UserCreatSerializer
-        
-        
-# class SetProfile(RetrieveAPIView):
     
+
+   
+    
+class EditProfile(RetrieveUpdateAPIView) :
+    queryset = User.objects.all()
+    lookup_field = 'username'
+
+    serializer_class = UserEditSerializer
+    permission_classes=(IsAuthenticated,UserIsOwnerOrReadOnly)
+    authentication_classes=(SessionAuthentication,JWTAuthentication)
+    
+    
+          
+        
+        
+class ChangePass(RetrieveUpdateDestroyAPIView):
+    
+    serializer_class = UserCreatSerializer
+    permission_classes=(IsAuthenticated,)
+
+    queryset = User.objects.all()
+        
