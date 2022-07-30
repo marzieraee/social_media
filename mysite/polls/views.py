@@ -49,16 +49,21 @@ class EditProfile(RetrieveUpdateAPIView) :
 
     serializer_class = UserEditSerializer
     permission_classes=(IsAuthenticated,UserIsOwnerOrReadOnly)
-    authentication_classes=(SessionAuthentication,JWTAuthentication)
     
     
           
         
         
 class ChangePass(RetrieveUpdateDestroyAPIView):
+    lookup_field = 'username'
+    serializer_class = ChangePasswordSerializer
+    permission_classes=(IsAuthenticated,UserIsOwnerOrReadOnly)
     
-    serializer_class = UserCreatSerializer
-    permission_classes=(IsAuthenticated,)
 
     queryset = User.objects.all()
         
+
+
+
+
+
