@@ -118,3 +118,19 @@ class ChangePasswordSerializer(serializers.ModelSerializer):
         instance.save()
 
         return instance
+    
+    
+    
+    
+    
+    
+    
+class PostListSerializer(serializers.ModelSerializer):
+    author=UserProfileSerializer()
+    class Meta:
+        
+        model= MyPost
+        
+        fields=('title','contet','likes','author',)
+        
+        

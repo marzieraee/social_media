@@ -63,7 +63,10 @@ class ChangePass(RetrieveUpdateDestroyAPIView):
     queryset = User.objects.all()
         
 
-
+class PostList(ListAPIView):
+    serializer_class = PostListSerializer
+    
+    queryset = MyPost.objects.all()
 
 
 

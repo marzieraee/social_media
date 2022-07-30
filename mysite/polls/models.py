@@ -17,3 +17,15 @@ class MediaPeofile(models.Model):
     image=models.ImageField(null=True,blank=True,default='',upload_to='profile/') 
     user=models.ForeignKey(User,related_name='media',on_delete=models.CASCADE)
     
+    
+class MyPost(models.Model):
+    author=models.ForeignKey(User,on_delete=models.CASCADE,null=True,related_name='related_name')
+    user_likes = models.ManyToManyField(User,related_name='userlike',blank=True)
+    title=models.CharField(max_length=200)
+    image = models.ImageField(upload_to='',default='', blank=True, null=True)
+    contet=models.TextField(null=True)
+    likes = models.PositiveIntegerField(default=0) 
+    created_date=models.DateTimeField(auto_now_add=True)
+          
+    def __str__(self):
+        return self.title

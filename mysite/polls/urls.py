@@ -6,13 +6,14 @@ from django.conf.urls.static import static
 
 
 urlpatterns = [
+         path('', views.PostList.as_view(), name='postlistapi'),
         path('register/', views.SignUp.as_view(), name='register'),
         path('profile/<str:username>', views.Profile.as_view(), name='profile'),
         path('editprofile/<str:username>', views.EditProfile.as_view(), name='profile'),
 
         path('changepassword/<str:username>', views.ChangePass.as_view(), name='changepass'),
 
-#     path('posts/', views.PostList.as_view(), name='postlistapi'),
+   
 #     path('postsingle/<int:pk>', views.SinglePost.as_view(), name='postsingle'),
 #     path('postcreate/', views.PostComment.as_view(), name='postcomment'),
 #     # path('commentretrieve/<int:pk>', views.CommentRetriveApi.as_view(), name='commentretriveapi'),
