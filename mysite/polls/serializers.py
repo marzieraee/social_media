@@ -134,3 +134,34 @@ class PostListSerializer(serializers.ModelSerializer):
         fields=('title','contet','likes','author',)
         
         
+        
+        
+class MediaPicSerializer(serializers.ModelSerializer):
+    
+    class Meta:
+        
+        
+        fields=('image',)
+        
+    
+        
+        
+class PostCreatSerializer(serializers.ModelSerializer):
+    
+    class Meta:
+        
+        model=MyPost
+        
+        fields=('title','contet',)
+        
+        
+
+       
+class PostUpdateSerializer(serializers.ModelSerializer):
+    class Meta:
+        
+        model=MyPost
+        
+        fields=('title','contet',)
+
+        

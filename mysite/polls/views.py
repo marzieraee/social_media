@@ -25,7 +25,11 @@ class UserIsOwnerOrReadOnly(permissions.BasePermission):
             return True
         return obj.id == request.user.id
     
-    
+class UserIsOwnerPostOrReadOnly(permissions.BasePermission):
+    def has_object_permission(self, request, view, obj):
+        if request.method in permissions.SAFE_METHODS:
+            return True
+        return obj.author == request.user.id    
 
 class SignUp(CreateAPIView):
     permission_classes = (AllowAny,)
@@ -39,8 +43,6 @@ class Profile(RetrieveAPIView):
     lookup_field = 'username'
     permission_classes=(IsAuthenticated,)
 
-    
-
    
     
 class EditProfile(RetrieveUpdateAPIView) :
@@ -48,25 +50,65 @@ class EditProfile(RetrieveUpdateAPIView) :
     lookup_field = 'username'
 
     serializer_class = UserEditSerializer
+    
     permission_classes=(IsAuthenticated,UserIsOwnerOrReadOnly)
     
     
           
         
         
-class ChangePass(RetrieveUpdateDestroyAPIView):
+class ChangePass(RetrieveUpdateAPIView):
     lookup_field = 'username'
     serializer_class = ChangePasswordSerializer
-    permission_classes=(IsAuthenticated,UserIsOwnerOrReadOnly)
+    permission_classes=(IsAuthenticated,)
     
 
     queryset = User.objects.all()
-        
+    def get_queryset(self):
+            
+        qs=super().get_queryset()
+        return qs.filter(username=self.request.user)
 
 class PostList(ListAPIView):
     serializer_class = PostListSerializer
     
     queryset = MyPost.objects.all()
+    
+    
+    
+
+class CreatPost(CreateAPIView):
+    serializer_class = PostCreatSerializer
+    permission_classes=(IsAuthenticated,)
+
+    queryset = MyPost.objects.all()
+    
+    def perform_create(self,serializer):
+        serializer.save(author=self.request.user)
+        
 
 
 
+class SinglePost(RetrieveAPIView):
+    serializer_class = PostListSerializer
+    
+    queryset = MyPost.objects.all()
+   
+
+
+class EditPost(UpdateAPIView):
+    permission_classes=(IsAuthenticated,)
+    queryset = MyPost.objects.all()
+    serializer_class = PostUpdateSerializer
+    
+    def get_queryset(self):
+        
+        qs=super().get_queryset()
+        return qs.filter(author=self.request.user)
+
+    
+    
+    
+    
+    
+    

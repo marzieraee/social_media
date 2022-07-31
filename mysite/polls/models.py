@@ -29,3 +29,11 @@ class MyPost(models.Model):
           
     def __str__(self):
         return self.title
+    
+
+
+
+
+class MediaPic(models.Model):
+    image=models.ImageField(null=True,blank=True,default='',upload_to='posts/') 
+    post=models.ForeignKey(MyPost,related_name='pic',on_delete=models.CASCADE)
