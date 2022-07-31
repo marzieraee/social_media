@@ -137,11 +137,11 @@ class PostListSerializer(serializers.ModelSerializer):
         
         
 class MediaPicSerializer(serializers.ModelSerializer):
-    
+    post=PostListSerializer()
     class Meta:
         
         
-        fields=('image',)
+        fields=('image','post')
         
     
         

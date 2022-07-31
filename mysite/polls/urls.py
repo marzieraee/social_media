@@ -15,6 +15,9 @@ urlpatterns = [
         path('changepassword/<str:username>', views.ChangePass.as_view(), name='changepass'),
         path('postcreate/', views.CreatPost.as_view(), name='postcomment'),
         path('postsingle/<int:pk>', views.SinglePost.as_view(), name='postsingle'),
+        path('setprofile/<str:username>', views.SetImageProfile.as_view(), name='changepass'),
+        
+        
 #     path('postcreate/', views.PostComment.as_view(), name='postcomment'),
 #     # path('commentretrieve/<int:pk>', views.CommentRetriveApi.as_view(), name='commentretriveapi'),
 #     path('register/', views.SignUp.as_view(), name='register'),

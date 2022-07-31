@@ -107,8 +107,15 @@ class EditPost(UpdateAPIView):
         return qs.filter(author=self.request.user)
 
     
+class SetImageProfile(UpdateAPIView):
     
-    
-    
+    permission_classes=(IsAuthenticated,)
+    queryset = MediaPeofile.objects.all()
+    serializer_class = MediaSerialzer
+    lookup_field = 'username'
+    def get_queryset(self):
+        
+        qs=super().get_queryset()
+        return qs.filter(user=self.request.user)
     
     

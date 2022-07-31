@@ -14,7 +14,7 @@ class MyUser(models.Model):
     
 
 class MediaPeofile(models.Model):
-    image=models.ImageField(null=True,blank=True,default='',upload_to='profile/') 
+    image=models.ImageField(null=True,blank=True,default='/profile/SetImageProfile',upload_to='profile/') 
     user=models.ForeignKey(User,related_name='media',on_delete=models.CASCADE)
     
     
